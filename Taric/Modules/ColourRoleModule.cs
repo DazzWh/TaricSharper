@@ -10,7 +10,8 @@ public class ColourRoleModule : InteractionModuleBase<SocketInteractionContext>
 {
     [SlashCommand("setcolour", "Changes the colour of your name")]
     public async Task SetColourRole(
-        string colourHex)
+        string colourHex,
+        string? roleName = null)
     {
         if (!colourHex.IsValidHexString())
         {
@@ -18,34 +19,34 @@ public class ColourRoleModule : InteractionModuleBase<SocketInteractionContext>
                                "try generating one here https://htmlcolorcodes.com/color-picker/", ephemeral: true);
             return;
         }
-        
+
         if (colourHex.ToColour() == Constants.GameRoleColor)
         {
             await RespondAsync($"That's a very specific colour... You're not allowed to use that... Stop.");
             return;
         }
-        
+
         await DeferAsync(ephemeral: true);
 
         await RemoveNonGameColoredRolesFromUser(Context.User);
-        
+
         var newRole = await Context.Guild.CreateRoleAsync(
-            Context.User.GlobalName,
+            roleName ?? Context.User.GlobalName,
             GuildPermissions.None,
-            colourHex.ToColour() );
-        
+            colourHex.ToColour());
+
         await Task.Delay(500);
-        
+
         await newRole.ModifyAsync(x =>
             x.Position = Context.Guild.Roles.Count(r => r.Color == Constants.GameRoleColor) + 2);
 
         await Task.Delay(500);
-        
+
         await ((IGuildUser)Context.User).AddRoleAsync(newRole);
 
         await FollowupAsync($"Colour set to {colourHex}", ephemeral: true);
     }
-    
+
     private async Task RemoveNonGameColoredRolesFromUser(SocketUser contextUser)
     {
         var colored =

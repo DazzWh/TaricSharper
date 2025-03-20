@@ -34,7 +34,7 @@ public class GameRoleModule : InteractionModuleBase<SocketInteractionContext>
 
         await Task.Delay(500);
         
-        await DeleteEmptyGameRoles();
+        // await DeleteEmptyGameRoles();
     }
 
     [SlashCommand("creategame", "Creates a game role for pinging people")]

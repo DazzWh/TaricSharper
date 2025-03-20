@@ -7,7 +7,7 @@ namespace Taric.Modules
     {
         private readonly Random _rnd = new();
 
-        [SlashCommand("say", "Make the bot say something.")]
+        [SlashCommand("say", "Become Taric")]
         [RequireUserPermission(GuildPermission.Administrator)]
         public async Task Say(
             string text)
