@@ -9,8 +9,7 @@ namespace Taric.Extensions
         public static bool IsNullOrUri(this string url) =>
             string.IsNullOrEmpty(url) || Uri.IsWellFormedUriString(url, UriKind.Absolute);
 
-        public static bool IsValidHexString(this string str) =>
-            new Regex(@"^#?[A-Fa-f0-9]{6}$").IsMatch(str);
+        public static bool IsValidHexString(this string str) => new Regex("^#?[A-Fa-f0-9]{6}$").IsMatch(str);
 
         /// <summary>
         /// Creates a color based on the hex value of a string
@@ -26,7 +25,7 @@ namespace Taric.Extensions
 
             if (hexStr.StartsWith("#"))
             {
-                hexStr = hexStr.Substring(1);
+                hexStr = hexStr[1..];
             }
 
             return new Color(

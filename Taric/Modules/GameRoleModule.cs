@@ -34,7 +34,7 @@ public class GameRoleModule : InteractionModuleBase<SocketInteractionContext>
 
         await Task.Delay(500);
         
-        // await DeleteEmptyGameRoles();
+        await DeleteEmptyGameRoles();
     }
 
     [SlashCommand("creategame", "Creates a game role for pinging people")]
@@ -71,10 +71,12 @@ public class GameRoleModule : InteractionModuleBase<SocketInteractionContext>
 
     private async Task DeleteEmptyGameRoles()
     {
+        //TODO: lock this from other threads
+        await Context.Guild.DownloadUsersAsync();
         var empty =
             Context.Guild.Roles.Where(
                 r => r.Color == Constants.GameRoleColor && !r.Members.Any());
-
+        
         foreach (var role in empty)
         {
             await Context.Guild.GetRole(role.Id).DeleteAsync();

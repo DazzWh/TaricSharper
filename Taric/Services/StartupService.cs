@@ -13,7 +13,10 @@ namespace Taric.Services
         private readonly IConfiguration _config;
         private readonly ILogger<DiscordSocketClient> _logger;
 
-        public StartupService(DiscordSocketClient discord, IConfiguration config, ILogger<DiscordSocketClient> logger)
+        public StartupService(
+            DiscordSocketClient discord, 
+            IConfiguration config, 
+            ILogger<DiscordSocketClient> logger)
         {
             _discord = discord;
             _config = config;
